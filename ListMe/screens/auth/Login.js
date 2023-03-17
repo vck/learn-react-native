@@ -1,21 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { View, Text, Button, TextInput, TouchableOpacity } from 'react-native';
-import { styles } from '../utils/styles';
-
-
-/*
-    Mock login mechanism here
-*/
-
+import { styles } from '../../utils/styles';
+import AuthContext from '../../utils/authContext';
 
 const user = {
-    email: 'vickydasta@gmail.com',
+    email: 'vicky',
     password: '12345'
 }
 
-
-
 export default function LoginScreen ({ navigation }) {
+
+    const { setAuthenticated, setUser } = useContext(AuthContext);
+
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isAuthSuccess, setAuthSuccess] = useState(false);
@@ -24,7 +21,9 @@ export default function LoginScreen ({ navigation }) {
         console.log('triggered', email === user.email && password == user.password)
         if(email === user.email && password == user.password){
             setAuthSuccess(true);
-            navigation.navigate('Profile')
+            setAuthenticated(true)
+            setUser(user)
+            //navigation.navigate('Profile')
         }
     }
 
@@ -54,7 +53,7 @@ export default function LoginScreen ({ navigation }) {
             <View style={styles.inputView}>
                 <TextInput
                 style={styles.TextInput}
-                placeholder=""
+                placeholder="myawesomepassword"
                 onChangeText={newText => {
                     console.log(newText)
                     setPassword(newText);
